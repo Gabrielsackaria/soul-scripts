@@ -10,7 +10,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const anniversaryDate = "2025-07-21"; 
+  const anniversaryDate = "2006-07-18"; 
   const slideshowImages = [
     "/pic1.jpeg",
     "/pic2.jpeg",
@@ -26,6 +26,17 @@ function App() {
     "/pic12.jpeg",
     "/pic13.jpeg",
   ];
+  
+  const mediaImages = [
+    "/pic2.jpeg",
+    "/pic4.jpeg",
+    "/pic6.jpeg",
+    "/pic8.jpeg",
+    "/pic10.jpeg",
+    "/pic12.jpeg",
+  ];
+  
+  const featuredVideo = "https://www.w3schools.com/html/mov_bbb.mp4";
 
   // --- LETTER TO SISTER ---
   const letterToSister = [
@@ -46,7 +57,6 @@ function App() {
     "No matter where life takes us, I know I will never be truly alone, because I have you.",
     "Ek is baie lief vir jou mamas 🥹🫂"
   ];
-  
 
   useEffect(() => {
     if (isLoggedIn && currentPage === "home") {
@@ -64,6 +74,36 @@ function App() {
       alert("Pokie please enter our special date. 🔒");
     }
   };
+
+  const renderMediaSection = () => (
+    <div className="media-section">
+      <h2>Pictures & Video 🎞️</h2>
+      <p className="section-intro">A small gallery of our favorite moments, plus a video to relive them.</p>
+      <div className="media-grid">
+        {mediaImages.map((img, index) => (
+          <div key={img} className="media-card">
+            <img
+              src={img}
+              alt={`Memory ${index + 1}`}
+              className="media-image"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+      <div className="media-video-card">
+        <h3>Our Highlight Reel</h3>
+        <video
+          className="media-video"
+          controls
+          poster="/pic1.jpeg"
+        >
+          <source src={featuredVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  );
 
   /* ---------- LOGIN SCREEN ---------- */
   if (!isLoggedIn) {
@@ -97,6 +137,7 @@ function App() {
           <li onClick={() => setCurrentPage("home")} className={currentPage === 'home' ? 'active-link' : ''}>🏠 Home</li>
           <li onClick={() => setCurrentPage("sister")} className={currentPage === 'sister' ? 'active-link' : ''}>💌 To My Sister</li>
           <li onClick={() => setCurrentPage("friend")} className={currentPage === 'friend' ? 'active-link' : ''}>✨ To My Friend</li>
+          <li onClick={() => setCurrentPage("media")} className={currentPage === 'media' ? 'active-link' : ''}>🎞️ Pictures & Video</li>
         </ul>
       </nav>
 
@@ -106,7 +147,7 @@ function App() {
 
       <main className="content-area">
         {currentPage === "home" && (
-          <div className="glass-panel has-slideshow">
+          <div className="glass-panel has-slideshow scroll-y">
             <div className="slideshow-wrapper">
               {slideshowImages.map((img, index) => (
                 <div
@@ -121,6 +162,9 @@ function App() {
             <div className="relative-content">
               <h1 className="hero-text">Welcome Home 🤍</h1>
               <p>This space was made just for us.</p>
+              <div className="home-media">
+                {renderMediaSection()}
+              </div>
             </div>
           </div>
         )}
@@ -154,9 +198,17 @@ function App() {
             </div>
           </div>
         )}
+
+        {currentPage === "media" && (
+          <div className="glass-panel scroll-y">
+            <div className="relative-content letter-container">
+              {renderMediaSection()}
+            </div>
+          </div>
+        )}
       </main>
 
-      {/* ✅ SPOTIFY FLOATING – MOBILE SAFE */}
+      {/* SPOTIFY FLOATING */}
       <Draggable bounds="body">
         <div className="music-player-wrapper draggable-widget floating-spotify">
           <div className="drag-handle">⠿ Drag</div>
