@@ -75,6 +75,11 @@ function App() {
     }
   };
 
+  const handleNavClick = (page) => {
+    setCurrentPage(page);
+    setMenuOpen(false);
+  };
+
   const renderMediaSection = () => (
     <div className="media-section">
       <h2>Pictures & Video 🎞️</h2>
@@ -130,14 +135,17 @@ function App() {
   return (
     <div className="app-container dashboard">
 
+      {/* BACKDROP OVERLAY */}
+      {menuOpen && <div className="sidebar-backdrop" onClick={() => setMenuOpen(false)} />}
+
       {/* SIDEBAR */}
       <nav className={`glass-sidebar ${menuOpen ? 'active' : ''}`}>
         <div className="brand">Us.</div>
         <ul>
-          <li onClick={() => setCurrentPage("home")} className={currentPage === 'home' ? 'active-link' : ''}>🏠 Home</li>
-          <li onClick={() => setCurrentPage("sister")} className={currentPage === 'sister' ? 'active-link' : ''}>💌 To My Sister</li>
-          <li onClick={() => setCurrentPage("friend")} className={currentPage === 'friend' ? 'active-link' : ''}>✨ To My Friend</li>
-          <li onClick={() => setCurrentPage("media")} className={currentPage === 'media' ? 'active-link' : ''}>🎞️ Pictures & Video</li>
+          <li onClick={() => handleNavClick("home")} className={currentPage === 'home' ? 'active-link' : ''}>🏠 Home</li>
+          <li onClick={() => handleNavClick("sister")} className={currentPage === 'sister' ? 'active-link' : ''}>💌 To My Sister</li>
+          <li onClick={() => handleNavClick("friend")} className={currentPage === 'friend' ? 'active-link' : ''}>✨ To My Friend</li>
+          <li onClick={() => handleNavClick("media")} className={currentPage === 'media' ? 'active-link' : ''}>🎞️ Pictures & Video</li>
         </ul>
       </nav>
 
